@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devresume
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: devresume
+  template:
+    metadata:
+      labels:
+        app: devresume
+    spec:
+      containers:
+        - name: devresume
+          image: devresume:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          resources:
+            limits:
+              memory: 512Mi
+              cpu: '1'
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: devresume-balancer
+spec:
+  selector:
+    app: devresume
+  ports:
+    - protocol: TCP
+      port: 8000 # The port to expose to the outside
+      targetPort: 8080 # The port the application is running on in the pods
+  type: LoadBalancer
+  sessionAffinity: ClientIP
