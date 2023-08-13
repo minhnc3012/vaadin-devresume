@@ -2,12 +2,22 @@ package com.devresume.application.data.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDate;
 
 @Entity
+@AllArgsConstructor
+@Setter
+@Getter
 public class SamplePerson extends AbstractEntity {
 
+	@NotEmpty
     private String firstName;
+	@NotEmpty
     private String lastName;
     @Email
     private String email;

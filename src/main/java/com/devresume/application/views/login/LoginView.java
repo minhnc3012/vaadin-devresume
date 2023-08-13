@@ -1,8 +1,11 @@
 package com.devresume.application.views.login;
 
 import com.devresume.application.security.AuthenticatedUser;
+import com.devresume.application.views.users.UsersView;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.login.LoginI18n;
 import com.vaadin.flow.component.login.LoginOverlay;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
@@ -29,8 +32,14 @@ public class LoginView extends LoginOverlay implements BeforeEnterObserver {
         i18n.setAdditionalInformation(null);
         setI18n(i18n);
 
-        setForgotPasswordButtonVisible(false);
+        setForgotPasswordButtonVisible(true);
         setOpened(true);
+        
+        addForgotPasswordListener(event -> {
+            // this.close();
+            Notification.show("ForgotPasswordListener");
+            UI.getCurrent().navigate(ForgotPasswordView.class);
+      });
     }
 
     @Override
