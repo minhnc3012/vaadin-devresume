@@ -1,4 +1,4 @@
-package com.devresume.application.data.service;
+package com.devresume.application.repository;
 
 import com.devresume.application.data.entity.SamplePerson;
 import org.springframework.data.jpa.repository.JpaRepository;

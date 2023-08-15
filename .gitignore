@@ -1,6 +1,7 @@
 /target/
 .idea/
 .vscode/
+**/dev-bundle/
 .settings
 .project
 .classpath

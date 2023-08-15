@@ -1,6 +1,8 @@
 package com.devresume.application.data.service;
 
 import com.devresume.application.data.entity.SamplePerson;
+import com.devresume.application.repository.SamplePersonRepository;
+
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

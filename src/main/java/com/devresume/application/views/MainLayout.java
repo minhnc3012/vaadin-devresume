@@ -1,5 +1,10 @@
 package com.devresume.application.views;
 
+import java.io.ByteArrayInputStream;
+import java.util.Optional;
+
+import org.vaadin.lineawesome.LineAwesomeIcon;
+
 import com.devresume.application.data.entity.User;
 import com.devresume.application.security.AuthenticatedUser;
 import com.devresume.application.views.about.AboutView;
@@ -23,9 +28,6 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.server.auth.AccessAnnotationChecker;
 import com.vaadin.flow.theme.lumo.LumoUtility;
-import java.io.ByteArrayInputStream;
-import java.util.Optional;
-import org.vaadin.lineawesome.LineAwesomeIcon;
 
 /**
  * The main view is a top-level placeholder for other views.
@@ -88,9 +90,9 @@ public class MainLayout extends AppLayout {
         if (maybeUser.isPresent()) {
             User user = maybeUser.get();
 
-            Avatar avatar = new Avatar(user.getName());
+            Avatar avatar = new Avatar(user.getFirstName());
             StreamResource resource = new StreamResource("profile-pic",
-                    () -> new ByteArrayInputStream(user.getProfilePicture()));
+                    () -> new ByteArrayInputStream(null));
             avatar.setImageResource(resource);
             avatar.setThemeName("xsmall");
             avatar.getElement().setAttribute("tabindex", "-1");
@@ -101,7 +103,7 @@ public class MainLayout extends AppLayout {
             MenuItem userName = userMenu.addItem("");
             Div div = new Div();
             div.add(avatar);
-            div.add(user.getName());
+            div.add(user.getFirstName());
             div.add(new Icon("lumo", "dropdown"));
             div.getElement().getStyle().set("display", "flex");
             div.getElement().getStyle().set("align-items", "center");

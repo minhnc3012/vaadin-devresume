@@ -1,6 +1,7 @@
 package com.devresume.application.views.users;
 
 import com.devresume.application.data.entity.SamplePerson;
+import com.devresume.application.data.entity.User;
 import com.devresume.application.data.service.SamplePersonService;
 import com.devresume.application.views.MainLayout;
 import com.vaadin.flow.component.UI;
@@ -36,7 +37,7 @@ import org.springframework.orm.ObjectOptimisticLockingFailureException;
 
 @PageTitle("Users")
 @Route(value = "users/:samplePersonID?/:action?(edit)", layout = MainLayout.class)
-@RouteAlias(value = "", layout = MainLayout.class)
+@RouteAlias(value = "users", layout = MainLayout.class)
 @PermitAll
 @Uses(Icon.class)
 public class UsersView extends Div implements BeforeEnterObserver {

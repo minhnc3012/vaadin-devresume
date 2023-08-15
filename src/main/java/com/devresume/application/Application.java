@@ -1,6 +1,6 @@
 package com.devresume.application;
 
-import com.devresume.application.data.service.SamplePersonRepository;
+import com.devresume.application.repository.SamplePersonRepository;
 import com.vaadin.flow.component.dependency.NpmPackage;
 import com.vaadin.flow.component.page.AppShellConfigurator;
 import com.vaadin.flow.theme.Theme;
