@@ -7,6 +7,7 @@ import com.devresume.application.entity.User;
 import com.devresume.application.service.MailService;
 import com.devresume.application.service.UserService;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -64,11 +65,11 @@ public class CreateAccountView extends Div implements BeforeEnterObserver {
                 }
                 binder.writeBean(this.user);
                 User user = userService.registerUser(this.user);
-                mailService.sendActivationEmail(user);
+                // mailService.sendActivationEmail(user);
 
                 clearForm();
                 Notification.show("Data updated");
-                // UI.getCurrent().navigate(UsersView.class);
+                UI.getCurrent().navigate(CustomLoginView.class);
             } catch (ObjectOptimisticLockingFailureException exception) {
                 Notification n = Notification.show(
                         "Error updating the data. Somebody else has updated the record while you were making changes.");
