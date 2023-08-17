@@ -1,6 +1,6 @@
-package com.devresume.application.data.service;
+package com.devresume.application.service;
 
-import com.devresume.application.data.entity.SamplePerson;
+import com.devresume.application.entity.SamplePerson;
 import com.devresume.application.repository.SamplePersonRepository;
 
 import java.util.Optional;

@@ -13,8 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.devresume.application.data.AuthoritiesConstants;
 import com.devresume.application.data.OAuth2ProviderType;
-import com.devresume.application.data.entity.Authority;
-import com.devresume.application.data.entity.User;
+import com.devresume.application.entity.Authority;
+import com.devresume.application.entity.User;
 import com.devresume.application.repository.UserRepository;
 import com.devresume.application.security.oauth2.CustomOAuth2User;
 import com.vaadin.flow.spring.security.AuthenticationContext;

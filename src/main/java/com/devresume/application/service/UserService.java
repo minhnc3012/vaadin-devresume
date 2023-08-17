@@ -1,29 +1,40 @@
-package com.devresume.application.data.service;
+package com.devresume.application.service;
 
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.devresume.application.data.AuthoritiesConstants;
 import com.devresume.application.data.OAuth2ProviderType;
-import com.devresume.application.data.entity.Authority;
-import com.devresume.application.data.entity.User;
+import com.devresume.application.entity.Authority;
+import com.devresume.application.entity.User;
+import com.devresume.application.exception.UsernameAlreadyUsedException;
+import com.devresume.application.repository.AuthorityRepository;
 import com.devresume.application.repository.UserRepository;
 import com.devresume.application.security.oauth2.CustomOAuth2User;
+import com.devresume.application.util.RandomUtil;
 
 @Service
+@Transactional
 public class UserService {
-
-    private final UserRepository userRepository;
-
-    public UserService(UserRepository repository) {
-        this.userRepository = repository;
-    }
+    private final Logger log = LoggerFactory.getLogger(UserService.class);
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private  AuthorityRepository authorityRepository;
+    @Autowired
+    private  UserRepository userRepository;
 
     public Optional<User> get(Long id) {
         return userRepository.findById(id);
@@ -49,6 +60,48 @@ public class UserService {
         return (int) userRepository.count();
     }
 
+    private boolean removeNonActivatedUser(User existingUser) {
+        if (existingUser.isActivated()) {
+            return false;
+        }
+        userRepository.delete(existingUser);
+        userRepository.flush();
+        return true;
+    }
+    
+    public User registerUser(User register) {
+        userRepository
+            .findOneByUsername(register.getUsername().toLowerCase())
+            .ifPresent(existingUser -> {
+                boolean removed = removeNonActivatedUser(existingUser);
+                if (!removed) {
+                    throw new UsernameAlreadyUsedException();
+                }
+            });
+        
+        User newUser = new User();
+        String encryptedPassword = passwordEncoder.encode("123");
+        newUser.setUsername(register.getUsername().toLowerCase());
+        // new user gets initially a generated password
+        newUser.setPassword(encryptedPassword);
+        newUser.setFirstName(register.getFirstName());
+        newUser.setLastName(register.getLastName());
+        newUser.setEmail(register.getUsername().toLowerCase());
+        
+        newUser.setImageUrl("");
+        newUser.setLangKey("en");
+        // new user is not active
+        newUser.setActivated(false);
+        // new user gets registration key
+        newUser.setActivationKey(RandomUtil.generateActivationKey());
+        Set<Authority> authorities = new HashSet<>();
+        authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
+        newUser.setAuthorities(authorities);
+        userRepository.save(newUser);
+        
+        return newUser;
+    }
+    
     public void processOAuthPostLogin(CustomOAuth2User oAuth2User) {
         String username = oAuth2User.getUsername();
         Optional<User> optionalUser = userRepository.findOneByUsername(username);

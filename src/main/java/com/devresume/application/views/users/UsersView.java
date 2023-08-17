@@ -1,8 +1,8 @@
 package com.devresume.application.views.users;
 
-import com.devresume.application.data.entity.SamplePerson;
-import com.devresume.application.data.entity.User;
-import com.devresume.application.data.service.SamplePersonService;
+import com.devresume.application.entity.SamplePerson;
+import com.devresume.application.entity.User;
+import com.devresume.application.service.SamplePersonService;
 import com.devresume.application.views.MainLayout;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;

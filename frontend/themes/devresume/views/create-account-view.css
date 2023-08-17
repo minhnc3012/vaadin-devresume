@@ -1,0 +1,15 @@
+.create-account-view {
+  display: block;
+  margin: 0 auto;
+  max-width: 560px;
+  padding: 0 var(--lumo-space-l);
+}
+.create-account-view .button-layout {
+  margin-bottom: var(--lumo-space-l);
+  margin-top: var(--lumo-space-m);
+  float: right;
+}
+.create-account-view h3 {
+  margin-bottom: var(--lumo-space-s);
+  margin-top: var(--lumo-space-l);
+}

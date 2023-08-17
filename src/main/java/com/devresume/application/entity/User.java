@@ -1,4 +1,4 @@
-package com.devresume.application.data.entity;
+package com.devresume.application.entity;
 
 import java.io.Serializable;
 import java.time.Instant;
@@ -22,6 +22,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -44,6 +45,8 @@ public class User extends AbstractAuditingEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @NotNull
+    @NotEmpty
+    @Email
     @Pattern(regexp = Constants.LOGIN_REGEX)
     @Size(min = 1, max = 50)
     @Column(length = 50, unique = true, nullable = false)
@@ -54,10 +57,12 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Column(name = "password_hash", length = 60)
     private String password;
 
+    @NotEmpty
     @Size(max = 50)
     @Column(name = "first_name", length = 50)
     private String firstName;
 
+    @NotEmpty
     @Size(max = 50)
     @Column(name = "last_name", length = 50)
     private String lastName;

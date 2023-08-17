@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.vaadin.lineawesome.LineAwesomeIcon;
 
-import com.devresume.application.data.entity.User;
+import com.devresume.application.entity.User;
 import com.devresume.application.security.AuthenticatedUser;
 import com.devresume.application.views.about.AboutView;
 import com.devresume.application.views.users.UsersView;

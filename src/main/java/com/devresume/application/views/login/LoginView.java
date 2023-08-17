@@ -8,6 +8,7 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.login.LoginI18n;
 import com.vaadin.flow.component.login.LoginOverlay;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.dom.Element;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
@@ -33,8 +34,9 @@ public class LoginView extends LoginOverlay implements BeforeEnterObserver {
         i18n.getHeader().setTitle("DevResume");
         i18n.getHeader().setDescription("Login using user/user or admin/admin");
         i18n.setAdditionalInformation(null);
+        i18n.getForm().setForgotPassword("Forgot Password or Sign Up");
         setI18n(i18n);
-
+        
         setForgotPasswordButtonVisible(true);
         
         addForgotPasswordListener(event -> {
@@ -47,6 +49,18 @@ public class LoginView extends LoginOverlay implements BeforeEnterObserver {
 
         // addRememberMeCheckbox();
         addGoogleLoginButton();
+        
+        // Tạo nút "Create Account"
+        Button createAccountButton = new Button("Create Account");
+        createAccountButton.addClickListener(event -> {
+            Notification.show("Create Account button clicked");
+            // Thực hiện xử lý tạo tài khoản ở đây
+        });
+        
+     // Tạo layout chứa các nút và thêm vào footer
+        HorizontalLayout buttonsLayout = new HorizontalLayout(createAccountButton);
+        buttonsLayout.setSpacing(true);
+        getElement().appendChild(buttonsLayout.getElement());
     }
 
     
@@ -89,6 +103,7 @@ public class LoginView extends LoginOverlay implements BeforeEnterObserver {
         """;
         getElement().executeJs(executeJsForFieldString, "vaadinLoginPassword", element);
     }
+   
     
     @Override
     public void beforeEnter(BeforeEnterEvent event) {

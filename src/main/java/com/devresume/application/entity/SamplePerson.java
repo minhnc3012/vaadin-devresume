@@ -1,4 +1,4 @@
-package com.devresume.application.data.entity;
+package com.devresume.application.entity;
 
 import java.time.LocalDate;
 

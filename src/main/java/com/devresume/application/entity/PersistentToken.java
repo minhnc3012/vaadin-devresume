@@ -1,4 +1,4 @@
-package com.devresume.application.data.entity;
+package com.devresume.application.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;

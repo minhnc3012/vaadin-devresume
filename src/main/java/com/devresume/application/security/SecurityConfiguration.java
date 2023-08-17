@@ -5,18 +5,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.devresume.application.data.service.UserService;
-import com.devresume.application.security.oauth2.CustomOAuth2User;
 import com.devresume.application.security.oauth2.CustomOAuth2UserService;
-import com.devresume.application.views.login.LoginView;
+import com.devresume.application.views.login.CustomLoginView;
 import com.vaadin.flow.spring.security.VaadinSavedRequestAwareAuthenticationSuccessHandler;
 import com.vaadin.flow.spring.security.VaadinWebSecurity;
 
@@ -26,9 +21,7 @@ public class SecurityConfiguration extends VaadinWebSecurity {
 
 	@Autowired
     private CustomOAuth2UserService oAuth2UserService;
-	@Autowired
-	private UserService userService;
-	 
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -43,15 +36,15 @@ public class SecurityConfiguration extends VaadinWebSecurity {
         http.authorizeHttpRequests().requestMatchers(new AntPathRequestMatcher("/line-awesome/**/*.svg")).permitAll();
         super.configure(http);
         http
-	        .oauth2Login()
-	    	.loginPage("/oauth2/authorization/google")
-	    	.userInfoEndpoint()
-	        .userService(oAuth2UserService)
+                .oauth2Login()
+                .loginPage("/oauth2/authorization/google")
+                .userInfoEndpoint()
+                .userService(oAuth2UserService)
         .and()
-    		.successHandler(getVaadinSavedRequestAwareAuthenticationSuccessHandler(http))
-    		.permitAll();
+                .successHandler(getVaadinSavedRequestAwareAuthenticationSuccessHandler(http))
+                .permitAll();
         
-        setLoginView(http, LoginView.class);
+        setLoginView(http, CustomLoginView.class);
         
         // setOAuth2LoginPage(http, "/oauth2/authorization/google");
         
@@ -60,12 +53,10 @@ public class SecurityConfiguration extends VaadinWebSecurity {
     private VaadinSavedRequestAwareAuthenticationSuccessHandler getVaadinSavedRequestAwareAuthenticationSuccessHandler(
             HttpSecurity http) {
         VaadinSavedRequestAwareAuthenticationSuccessHandler vaadinSavedRequestAwareAuthenticationSuccessHandler = new VaadinSavedRequestAwareAuthenticationSuccessHandler();
-        vaadinSavedRequestAwareAuthenticationSuccessHandler
-                .setDefaultTargetUrl(applyUrlMapping(""));
+        vaadinSavedRequestAwareAuthenticationSuccessHandler.setDefaultTargetUrl(applyUrlMapping(""));
         RequestCache requestCache = http.getSharedObject(RequestCache.class);
         if (requestCache != null) {
-            vaadinSavedRequestAwareAuthenticationSuccessHandler
-                    .setRequestCache(requestCache);
+            vaadinSavedRequestAwareAuthenticationSuccessHandler.setRequestCache(requestCache);
         }
         http.setSharedObject(
                 VaadinSavedRequestAwareAuthenticationSuccessHandler.class,

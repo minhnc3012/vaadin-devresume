@@ -1,4 +1,4 @@
-package com.devresume.application.data.entity;
+package com.devresume.application.entity;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

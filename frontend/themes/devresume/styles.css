@@ -1,5 +1,6 @@
 @import url('./main-layout.css');
 @import url('./views/users-view.css');
+@import url('./views/create-account-view.css');
 @import url('@fontsource/inter/index.css');    html {
       --lumo-line-height-m: 1.4;
       --lumo-line-height-s: 1.2;

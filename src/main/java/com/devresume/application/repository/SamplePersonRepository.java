@@ -1,8 +1,9 @@
 package com.devresume.application.repository;
 
-import com.devresume.application.data.entity.SamplePerson;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+
+import com.devresume.application.entity.SamplePerson;
 
 public interface SamplePersonRepository
         extends

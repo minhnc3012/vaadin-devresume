@@ -1,3 +1,11 @@
+.login-rich-content {
+    background-image: url(https://vaadin.com/docs/v14/static/earth-a5bf9c5d25afa2cdadcb83108380f6e8.jpg);
+    background-position: center center;
+    background-size: cover;
+    display: flex;
+    height: 100%;
+}
+
 vaadin-scroller[slot="drawer"] {
   padding: var(--lumo-space-s);
 }

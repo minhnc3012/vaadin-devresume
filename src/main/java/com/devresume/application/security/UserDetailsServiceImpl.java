@@ -15,7 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.devresume.application.data.entity.User;
+import com.devresume.application.entity.User;
 import com.devresume.application.exception.UserNotActivatedException;
 import com.devresume.application.repository.UserRepository;
 

@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.devresume.application.data.entity.User;
+import com.devresume.application.entity.User;
 
 /**
  * Spring Data JPA repository for the {@link User} entity.
