@@ -28,6 +28,8 @@ import com.vaadin.flow.theme.Theme;
 @EnableConfigurationProperties({ ApplicationProperties.class })
 public class Application implements AppShellConfigurator {
 
+    private static final long serialVersionUID = 1L;
+
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
