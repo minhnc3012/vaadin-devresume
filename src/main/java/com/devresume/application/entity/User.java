@@ -28,8 +28,9 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * A user.
@@ -38,7 +39,8 @@ import lombok.NoArgsConstructor;
 @Table(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Setter
+@Getter
 @Builder
 public class User extends AbstractAuditingEntity implements Serializable {
 
@@ -121,4 +123,34 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
     private Set<PersistentToken> persistentTokens = new HashSet<>();
     
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof User)) {
+            return false;
+        }
+        return getId() != null && getId().equals(((User) o).getId());
+    }
+
+    @Override
+    public int hashCode() {
+        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+        return getClass().hashCode();
+    }
+    
+    @Override
+    public String toString() {
+        return "User {" +
+            "username='" + username + '\'' +
+            ", firstName='" + firstName + '\'' +
+            ", lastName='" + lastName + '\'' +
+            ", email='" + email + '\'' +
+            ", imageUrl='" + imageUrl + '\'' +
+            ", activated='" + activated + '\'' +
+            ", langKey='" + langKey + '\'' +
+            ", activationKey='" + activationKey + '\'' +
+            "}";
+    }
 }
