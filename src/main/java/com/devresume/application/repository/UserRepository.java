@@ -22,7 +22,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findAllByActivatedIsFalseAndActivationKeyIsNotNullAndCreatedDateBefore(Instant dateTime);
     Optional<User> findOneByResetKey(String resetKey);
     Optional<User> findOneByEmailIgnoreCase(String email);
-    Optional<User> findOneByUsername(String username);
+    Optional<User> findOneByUsernameIgnoreCase(String username);
 
     @EntityGraph(attributePaths = "authorities")
     Optional<User> findOneWithAuthoritiesByUsername(String username);

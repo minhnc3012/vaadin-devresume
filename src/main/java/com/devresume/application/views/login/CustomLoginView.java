@@ -34,6 +34,11 @@ public class CustomLoginView extends VerticalLayout implements BeforeEnterObserv
         
         loginForm.setAction("custom-login");
         
+        loginForm.addForgotPasswordListener(event -> {
+            Notification.show("ForgotPasswordListener");
+            UI.getCurrent().navigate(ForgotPasswordView.class);
+        });
+
         Button googleLoginButton = new Button("Login with Google", new Icon("vaadin", "google-plus"));
         googleLoginButton.addClickListener(event -> {
             UI.getCurrent().getPage().setLocation("/oauth2/authorization/google");

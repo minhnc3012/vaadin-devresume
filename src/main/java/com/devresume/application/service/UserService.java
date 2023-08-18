@@ -1,5 +1,7 @@
 package com.devresume.application.service;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -71,7 +73,7 @@ public class UserService {
     
     public User registerUser(User register) {
         userRepository
-            .findOneByUsername(register.getUsername().toLowerCase())
+            .findOneByUsernameIgnoreCase(register.getUsername().toLowerCase())
             .ifPresent(existingUser -> {
                 boolean removed = removeNonActivatedUser(existingUser);
                 if (!removed) {
@@ -104,7 +106,7 @@ public class UserService {
     
     public void processOAuthPostLogin(CustomOAuth2User oAuth2User) {
         String username = oAuth2User.getUsername();
-        Optional<User> optionalUser = userRepository.findOneByUsername(username);
+        Optional<User> optionalUser = userRepository.findOneByUsernameIgnoreCase(username);
         User user = null;
         if (optionalUser.isPresent()) {
             user = optionalUser.get();
@@ -145,5 +147,42 @@ public class UserService {
             user.setAuthorities(authorities);
         }
         userRepository.save(user);
+    }
+    
+    public Optional<User> activateRegistration(String key) {
+        log.debug("Activating user for activation key {}", key);
+        return userRepository
+            .findOneByActivationKey(key)
+            .map(user -> {
+                // activate given user for the registration key.
+                user.setActivated(true);
+                user.setActivationKey(null);
+                log.debug("Activated user: {}", user);
+                return user;
+            });
+    }
+    
+    public Optional<User> requestPasswordReset(String mail) {
+        return userRepository
+            .findOneByUsernameIgnoreCase(mail)
+            .filter(User::isActivated)
+            .map(user -> {
+                user.setResetKey(RandomUtil.generateResetKey());
+                user.setResetDate(Instant.now());
+                return user;
+            });
+    }
+    
+    public Optional<User> completePasswordReset(String newPassword, String key) {
+        log.debug("Reset user password for reset key {}", key);
+        return userRepository
+            .findOneByResetKey(key)
+            .filter(user -> user.getResetDate().isAfter(Instant.now().minus(1, ChronoUnit.DAYS)))
+            .map(user -> {
+                user.setPassword(passwordEncoder.encode(newPassword));
+                user.setResetKey(null);
+                user.setResetDate(null);
+                return user;
+            });
     }
 }

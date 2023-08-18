@@ -63,7 +63,7 @@ public class AuthenticatedUser {
                     });
     	} else {
     		return authenticationContext.getAuthenticatedUser(UserDetails.class)
-                    .map(userDetails -> userRepository.findOneByUsername(userDetails.getUsername()).get());
+                    .map(userDetails -> userRepository.findOneByUsernameIgnoreCase(userDetails.getUsername()).get());
     	}
         
     }
